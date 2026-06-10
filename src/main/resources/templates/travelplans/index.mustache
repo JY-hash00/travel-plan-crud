@@ -1,36 +1,21 @@
 {{> layouts/header}}
-
 <div class="container mt-5">
-    <h2 class="mb-4">✈️ 여행 일정 목록</h2>
-
-    <table class="table table-hover table-bordered text-center">
-        <thead class="table-dark">
+    <h2>여행 일정 목록</h2>
+    <a href="/travel-plans/new" class="btn btn-primary mb-3">새 일정 등록</a>
+    <table class="table table-hover">
+        <thead>
             <tr>
-                <th scope="col">번호</th>
-                <th scope="col">여행지</th>
-                <th scope="col">제목</th>
-                <th scope="col">시작일</th>
-                <th scope="col">종료일</th>
+                <th>ID</th><th>제목</th><th>여행지</th><th>상세보기</th>
             </tr>
         </thead>
         <tbody>
             {{#travelPlans}}
             <tr>
-                <td>{{id}}</td>
-                <td>{{destination}}</td>
-                <td class="text-start">
-                    <a href="/travel-plans/{{id}}" class="text-decoration-none fw-bold">{{title}}</a>
-                </td>
-                <td>{{startDate}}</td>
-                <td>{{endDate}}</td>
+                <td>{{id}}</td><td>{{title}}</td><td>{{destination}}</td>
+                <td><a href="/travel-plans/{{id}}" class="btn btn-sm btn-info">보기</a></td>
             </tr>
             {{/travelPlans}}
         </tbody>
     </table>
-
-    <div class="text-end">
-        <a href="/travel-plans/new" class="btn btn-primary">새 일정 등록</a>
-    </div>
 </div>
-
 {{> layouts/footer}}

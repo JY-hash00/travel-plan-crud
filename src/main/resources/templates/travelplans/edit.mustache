@@ -1,41 +1,16 @@
 {{> layouts/header}}
-
 <div class="container mt-5">
-    <h2 class="mb-4">여행 일정 수정</h2>
-
+    <h2>여행 일정 수정</h2>
     <form action="/travel-plans/update" method="post" class="border p-4 bg-light rounded">
-
         <input type="hidden" name="id" value="{{travelPlan.id}}">
-
-        <div class="mb-3">
-            <label class="form-label fw-bold">제목</label>
-            <input type="text" class="form-control" name="title" value="{{travelPlan.title}}" required>
-        </div>
-
-        <div class="mb-3">
-            <label class="form-label fw-bold">여행지</label>
-            <input type="text" class="form-control" name="destination" value="{{travelPlan.destination}}" required>
-        </div>
-
+        <div class="mb-3"><label class="form-label">제목</label><input type="text" class="form-control" name="title" value="{{travelPlan.title}}" required></div>
+        <div class="mb-3"><label class="form-label">여행지</label><input type="text" class="form-control" name="destination" value="{{travelPlan.destination}}" required></div>
         <div class="row">
-            <div class="col-md-6 mb-3">
-                <label class="form-label fw-bold">시작일</label>
-                <input type="date" class="form-control" name="startDate" value="{{travelPlan.startDate}}" required>
-            </div>
-            <div class="col-md-6 mb-3">
-                <label class="form-label fw-bold">종료일</label>
-                <input type="date" class="form-control" name="endDate" value="{{travelPlan.endDate}}" required>
-            </div>
+            <div class="col-md-6 mb-3"><label class="form-label">시작일</label><input type="date" class="form-control" name="startDate" value="{{travelPlan.startDate}}" required></div>
+            <div class="col-md-6 mb-3"><label class="form-label">종료일</label><input type="date" class="form-control" name="endDate" value="{{travelPlan.endDate}}" required></div>
         </div>
-
-        <div class="mb-4">
-            <label class="form-label fw-bold">메모</label>
-            <textarea class="form-control" name="memo" rows="5">{{travelPlan.memo}}</textarea>
-        </div>
-
-        <button type="submit" class="btn btn-success">수정 완료</button>
-        <a href="/travel-plans/{{travelPlan.id}}" class="btn btn-secondary">취소</a>
+        <div class="mb-3"><label class="form-label">메모</label><textarea class="form-control" name="memo" rows="3">{{travelPlan.memo}}</textarea></div>
+        <button type="submit" class="btn btn-warning">수정 완료</button>
     </form>
 </div>
-
 {{> layouts/footer}}
