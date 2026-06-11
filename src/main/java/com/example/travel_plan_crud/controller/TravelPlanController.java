@@ -19,7 +19,7 @@ public class TravelPlanController {
     @GetMapping("/travel-plans")
     public String index(Model model) {
         Iterable<TravelPlan> travelPlanList = travelPlanService.findAll();
-        model.addAttribute("travelPlanList", travelPlanList);
+        model.addAttribute("travelPlans", travelPlanList);
         return "travelplans/index";
     }
 

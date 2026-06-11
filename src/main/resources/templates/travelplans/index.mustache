@@ -1,21 +1,50 @@
 {{> layouts/header}}
+
 <div class="container mt-5">
     <h2>여행 일정 목록</h2>
-    <a href="/travel-plans/new" class="btn btn-primary mb-3">새 일정 등록</a>
-    <table class="table table-hover">
-        <thead>
-            <tr>
-                <th>ID</th><th>제목</th><th>여행지</th><th>상세보기</th>
-            </tr>
-        </thead>
-        <tbody>
-            {{#travelPlans}}
-            <tr>
-                <td>{{id}}</td><td>{{title}}</td><td>{{destination}}</td>
-                <td><a href="/travel-plans/{{id}}" class="btn btn-sm btn-info">보기</a></td>
-            </tr>
-            {{/travelPlans}}
-        </tbody>
-    </table>
+
+```
+<a href="/travel-plans/new" class="btn btn-primary mb-3">
+    새 일정 등록
+</a>
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>제목</th>
+            <th>여행지</th>
+            <th>기능</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {{#travelPlans}}
+        <tr>
+            <td>{{id}}</td>
+            <td>{{title}}</td>
+            <td>{{destination}}</td>
+
+            <td>
+                <a href="/travel-plans/{{id}}" class="btn btn-sm btn-info">
+                    보기
+                </a>
+
+                <a href="/travel-plans/{{id}}/edit" class="btn btn-sm btn-warning">
+                    수정
+                </a>
+
+                <a href="/travel-plans/{{id}}/delete"
+                   class="btn btn-sm btn-danger"
+                   onclick="return confirm('정말 삭제하시겠습니까?');">
+                    삭제
+                </a>
+            </td>
+        </tr>
+        {{/travelPlans}}
+    </tbody>
+</table>
+```
+
 </div>
 {{> layouts/footer}}
