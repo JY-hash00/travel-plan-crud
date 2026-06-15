@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.time.LocalTime;
 
 @Controller
 public class TravelPlanController {
@@ -35,7 +36,7 @@ public class TravelPlanController {
         return "travelplans/show";
     }
 
-    // 등록 폼 GET /travel-plans/new
+    // 등 록 폼 GET /travel-plans/new
     @GetMapping("/travel-plans/new")
     public String newForm(Model model) {
         model.addAttribute("travelPlan", new TravelPlan());
@@ -45,16 +46,19 @@ public class TravelPlanController {
     // 등록 처리 POST /travel-plans/create
     @PostMapping("/travel-plans/create")
     public String create(TravelPlan travelPlan,
-                          @RequestParam(required = false) List<String> dayDates,
-                          @RequestParam(required = false) List<String> dayMemos) {
+                         @RequestParam(required = false) List<String> dayDates,
+                         @RequestParam(required = false) List<String> dayMemos) {
+    //일차별 메모 띄우기
         TravelPlan saved = travelPlanService.save(travelPlan);
 
         if (dayDates != null && dayMemos != null) {
-            for (int i = 0; i < dayDates.size(); i++) {
+            for (int i = 0; i < dayDates.size() && i < dayMemos.size(); i++) {
+                String date = dayDates.get(i);
                 String memo = dayMemos.get(i);
-                if (memo != null && !memo.isBlank()) {
+
+                if (date != null && !date.isBlank() && memo != null && !memo.isBlank()) {
                     TravelPlanItem item = new TravelPlanItem();
-                    item.setVisitDate(LocalDate.parse(dayDates.get(i)));
+                    item.setVisitDate(LocalDate.parse(date));
                     item.setPlace((i + 1) + "일차");
                     item.setMemo(memo);
                     travelPlanService.addItem(saved.getId(), item);
@@ -62,7 +66,7 @@ public class TravelPlanController {
             }
         }
 
-        return "redirect:/travel-plans/" + saved.getId();
+        return "redirect:/travel-plans";
     }
 
     // 수정 폼 GET /travel-plans/{id}/edit
@@ -89,7 +93,22 @@ public class TravelPlanController {
 
     // 세부 일정 등록 POST /travel-plans/{id}/items/create
     @PostMapping("/travel-plans/{id}/items/create")
-    public String addItem(@PathVariable Long id, TravelPlanItem item) {
+    public String addItem(@PathVariable Long id,
+                          @RequestParam String visitDate,
+                          @RequestParam(required = false) String visitTime,
+                          @RequestParam String place,
+                          @RequestParam(required = false) String memo) {
+
+        TravelPlanItem item = new TravelPlanItem();
+        item.setVisitDate(LocalDate.parse(visitDate));
+
+        if (visitTime != null && !visitTime.isBlank()) {
+            item.setVisitTime(LocalTime.parse(visitTime));
+        }
+
+        item.setPlace(place);
+        item.setMemo(memo);
+
         travelPlanService.addItem(id, item);
         return "redirect:/travel-plans/" + id;
     }
