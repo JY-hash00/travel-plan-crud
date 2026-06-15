@@ -1,10 +1,14 @@
 package com.example.travel_plan_crud.controller;
 
 import com.example.travel_plan_crud.entity.TravelPlan;
+import com.example.travel_plan_crud.entity.TravelPlanItem;
 import com.example.travel_plan_crud.service.TravelPlanService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
+import java.util.List;
 
 @Controller
 public class TravelPlanController {
@@ -40,9 +44,25 @@ public class TravelPlanController {
 
     // 등록 처리 POST /travel-plans/create
     @PostMapping("/travel-plans/create")
-    public String create(TravelPlan travelPlan) {
-        travelPlanService.save(travelPlan);
-        return "redirect:/travel-plans";
+    public String create(TravelPlan travelPlan,
+                          @RequestParam(required = false) List<String> dayDates,
+                          @RequestParam(required = false) List<String> dayMemos) {
+        TravelPlan saved = travelPlanService.save(travelPlan);
+
+        if (dayDates != null && dayMemos != null) {
+            for (int i = 0; i < dayDates.size(); i++) {
+                String memo = dayMemos.get(i);
+                if (memo != null && !memo.isBlank()) {
+                    TravelPlanItem item = new TravelPlanItem();
+                    item.setVisitDate(LocalDate.parse(dayDates.get(i)));
+                    item.setPlace((i + 1) + "일차");
+                    item.setMemo(memo);
+                    travelPlanService.addItem(saved.getId(), item);
+                }
+            }
+        }
+
+        return "redirect:/travel-plans/" + saved.getId();
     }
 
     // 수정 폼 GET /travel-plans/{id}/edit
@@ -65,5 +85,19 @@ public class TravelPlanController {
     public String delete(@PathVariable Long id) {
         travelPlanService.delete(id);
         return "redirect:/travel-plans";
+    }
+
+    // 세부 일정 등록 POST /travel-plans/{id}/items/create
+    @PostMapping("/travel-plans/{id}/items/create")
+    public String addItem(@PathVariable Long id, TravelPlanItem item) {
+        travelPlanService.addItem(id, item);
+        return "redirect:/travel-plans/" + id;
+    }
+
+    // 세부 일정 삭제 GET /travel-plans/{planId}/items/{itemId}/delete
+    @GetMapping("/travel-plans/{planId}/items/{itemId}/delete")
+    public String deleteItem(@PathVariable Long planId, @PathVariable Long itemId) {
+        travelPlanService.deleteItem(itemId);
+        return "redirect:/travel-plans/" + planId;
     }
 }

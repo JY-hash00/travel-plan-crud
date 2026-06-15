@@ -1,0 +1,170 @@
+:root {
+    --tp-primary: #2563eb;
+    --tp-primary-dark: #1d4ed8;
+    --tp-accent: #f97316;
+    --tp-bg: #f4f6fb;
+    --tp-card-radius: 16px;
+}
+
+body {
+    font-family: "Noto Sans KR", "Pretendard", -apple-system, sans-serif;
+    background-color: var(--tp-bg);
+    color: #1f2937;
+}
+
+/* Navbar */
+.navbar.tp-navbar {
+    background: linear-gradient(135deg, var(--tp-primary) 0%, var(--tp-primary-dark) 100%);
+    box-shadow: 0 2px 8px rgba(37, 99, 235, 0.25);
+}
+
+.tp-navbar .navbar-brand {
+    font-weight: 700;
+    letter-spacing: 0.02em;
+}
+
+.tp-navbar .btn-light {
+    font-weight: 600;
+}
+
+.tp-navbar .btn-warning {
+    font-weight: 600;
+    color: #fff;
+    background-color: var(--tp-accent);
+    border-color: var(--tp-accent);
+}
+
+.tp-navbar .btn-warning:hover {
+    background-color: #ea580c;
+    border-color: #ea580c;
+}
+
+/* Page heading */
+.tp-page-title {
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 1.5rem;
+}
+
+/* Cards */
+.tp-card {
+    border: none;
+    border-radius: var(--tp-card-radius);
+    box-shadow: 0 4px 16px rgba(15, 23, 42, 0.06);
+}
+
+/* Travel plan grid cards */
+.tp-plan-card {
+    border: none;
+    border-radius: var(--tp-card-radius);
+    box-shadow: 0 4px 16px rgba(15, 23, 42, 0.06);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    height: 100%;
+}
+
+.tp-plan-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.12);
+}
+
+.tp-plan-card .card-header {
+    background: linear-gradient(135deg, var(--tp-primary) 0%, #60a5fa 100%);
+    color: #fff;
+    border-radius: var(--tp-card-radius) var(--tp-card-radius) 0 0;
+    font-weight: 700;
+    border: none;
+}
+
+.tp-plan-card .tp-date-badge {
+    background-color: #eff6ff;
+    color: var(--tp-primary-dark);
+    font-weight: 600;
+    border-radius: 999px;
+    padding: 0.35rem 0.75rem;
+    font-size: 0.85rem;
+}
+
+.tp-empty {
+    text-align: center;
+    color: #9ca3af;
+    padding: 3rem 1rem;
+}
+
+/* Forms */
+.tp-form-card {
+    border: none;
+    border-radius: var(--tp-card-radius);
+    box-shadow: 0 4px 16px rgba(15, 23, 42, 0.06);
+}
+
+.tp-form-card label {
+    font-weight: 600;
+    color: #374151;
+}
+
+.tp-form-card .form-control:focus {
+    border-color: var(--tp-primary);
+    box-shadow: 0 0 0 0.2rem rgba(37, 99, 235, 0.15);
+}
+
+/* Buttons */
+.btn-tp-primary {
+    background-color: var(--tp-primary);
+    border-color: var(--tp-primary);
+    color: #fff;
+    font-weight: 600;
+}
+
+.btn-tp-primary:hover {
+    background-color: var(--tp-primary-dark);
+    border-color: var(--tp-primary-dark);
+    color: #fff;
+}
+
+.btn,
+.form-control {
+    border-radius: 10px;
+}
+
+/* Detail page */
+.tp-detail-meta {
+    color: #6b7280;
+}
+
+.tp-detail-meta i {
+    width: 1.4rem;
+    color: var(--tp-primary);
+}
+
+/* Itinerary timeline */
+.tp-timeline {
+    position: relative;
+    padding-left: 1.5rem;
+    border-left: 2px solid #e5e7eb;
+}
+
+.tp-timeline-item {
+    position: relative;
+    padding-bottom: 1.25rem;
+}
+
+.tp-timeline-item::before {
+    content: "";
+    position: absolute;
+    left: -1.6rem;
+    top: 0.3rem;
+    width: 0.7rem;
+    height: 0.7rem;
+    border-radius: 50%;
+    background-color: var(--tp-primary);
+}
+
+.tp-timeline-item .tp-time {
+    font-weight: 700;
+    color: var(--tp-primary-dark);
+}
+
+/* Footer */
+footer.tp-footer {
+    color: #9ca3af;
+}

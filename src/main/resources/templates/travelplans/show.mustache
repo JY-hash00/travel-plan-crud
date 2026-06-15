@@ -1,15 +1,63 @@
 {{> layouts/header}}
-<div class="container mt-5">
-    <h2>여행 상세 정보</h2>
-    <div class="card p-4">
-        <h4>{{travelPlan.title}}</h4>
-        <p><strong>여행지:</strong> {{travelPlan.destination}}</p>
-        <p><strong>기간:</strong> {{travelPlan.startDate}} ~ {{travelPlan.endDate}}</p>
-        <p><strong>메모:</strong> {{travelPlan.memo}}</p>
-        <div class="mt-3">
-            <a href="/travel-plans" class="btn btn-secondary">목록으로</a>
-            <a href="/travel-plans/{{travelPlan.id}}/edit" class="btn btn-warning">수정</a>
+<div class="container mt-5" style="max-width: 760px;">
+    <h2 class="tp-page-title"><i class="bi bi-info-circle me-2"></i>여행 상세 정보</h2>
+    <div class="card tp-card p-4 mb-4">
+        <h4 class="mb-3">{{travelPlan.title}}</h4>
+        <p class="tp-detail-meta mb-2"><i class="bi bi-geo-alt-fill me-1"></i><strong>여행지</strong> &nbsp;{{travelPlan.destination}}</p>
+        <p class="tp-detail-meta mb-2"><i class="bi bi-calendar-range me-1"></i><strong>기간</strong> &nbsp;{{travelPlan.startDate}} ~ {{travelPlan.endDate}}</p>
+        <p class="tp-detail-meta mb-0"><i class="bi bi-journal-text me-1"></i><strong>메모</strong> &nbsp;{{travelPlan.memo}}</p>
+        <div class="mt-4 d-flex gap-2">
+            <a href="/travel-plans" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left me-1"></i>목록으로
+            </a>
+            <a href="/travel-plans/{{travelPlan.id}}/edit" class="btn btn-tp-primary">
+                <i class="bi bi-pencil me-1"></i>수정
+            </a>
         </div>
+    </div>
+
+    <div class="card tp-card p-4">
+        <h5 class="mb-3"><i class="bi bi-list-task me-2"></i>세부 일정</h5>
+
+        {{^travelPlan.items}}
+        <p class="tp-empty mb-4">등록된 세부 일정이 없습니다.</p>
+        {{/travelPlan.items}}
+        {{#travelPlan.items}}
+        <div class="tp-timeline mb-4">
+            {{#travelPlan.items}}
+            <div class="tp-timeline-item">
+                <div class="tp-time">{{visitDate}} {{visitTime}}</div>
+                <div class="fw-semibold">{{place}}</div>
+                {{#memo}}<div class="text-muted small">{{memo}}</div>{{/memo}}
+                <a href="/travel-plans/{{travelPlan.id}}/items/{{id}}/delete"
+                   class="btn btn-sm btn-outline-danger mt-1"
+                   onclick="return confirm('이 세부 일정을 삭제하시겠습니까?');">
+                    <i class="bi bi-trash me-1"></i>삭제
+                </a>
+            </div>
+            {{/travelPlan.items}}
+        </div>
+        {{/travelPlan.items}}
+
+        <form action="/travel-plans/{{travelPlan.id}}/items/create" method="post" class="row g-2 border-top pt-3">
+            <div class="col-md-3">
+                <input type="date" class="form-control" name="visitDate" required>
+            </div>
+            <div class="col-md-2">
+                <input type="time" class="form-control" name="visitTime">
+            </div>
+            <div class="col-md-3">
+                <input type="text" class="form-control" name="place" placeholder="장소" required>
+            </div>
+            <div class="col-md-3">
+                <input type="text" class="form-control" name="memo" placeholder="메모">
+            </div>
+            <div class="col-md-1">
+                <button type="submit" class="btn btn-tp-primary w-100">
+                    <i class="bi bi-plus-lg"></i>
+                </button>
+            </div>
+        </form>
     </div>
 </div>
 {{> layouts/footer}}

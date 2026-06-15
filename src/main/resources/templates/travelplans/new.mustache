@@ -1,15 +1,89 @@
 {{> layouts/header}}
-<div class="container mt-5">
-    <h2>여행 일정 등록</h2>
-    <form action="/travel-plans/create" method="post" class="border p-4 bg-light rounded">
-        <div class="mb-3"><label class="form-label">제목</label><input type="text" class="form-control" name="title" required></div>
-        <div class="mb-3"><label class="form-label">여행지</label><input type="text" class="form-control" name="destination" required></div>
-        <div class="row">
-            <div class="col-md-6 mb-3"><label class="form-label">시작일</label><input type="date" class="form-control" name="startDate" required></div>
-            <div class="col-md-6 mb-3"><label class="form-label">종료일</label><input type="date" class="form-control" name="endDate" required></div>
+<div class="container mt-5" style="max-width: 640px;">
+    <h2 class="tp-page-title"><i class="bi bi-pencil-square me-2"></i>여행 일정 등록</h2>
+    <div class="card tp-form-card">
+        <div class="card-body p-4">
+            <form action="/travel-plans/create" method="post">
+                <div class="mb-3">
+                    <label class="form-label"><i class="bi bi-card-text me-1"></i>제목</label>
+                    <input type="text" class="form-control" name="title" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label"><i class="bi bi-geo-alt me-1"></i>여행지</label>
+                    <input type="text" class="form-control" name="destination" required>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label"><i class="bi bi-calendar-event me-1"></i>시작일</label>
+                        <input type="date" class="form-control" id="startDate" name="startDate" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label"><i class="bi bi-calendar-check me-1"></i>종료일</label>
+                        <input type="date" class="form-control" id="endDate" name="endDate" required>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label"><i class="bi bi-journal-text me-1"></i>메모</label>
+                    <textarea class="form-control" name="memo" rows="3" placeholder="여행에 대한 메모를 남겨보세요"></textarea>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label"><i class="bi bi-calendar-week me-1"></i>일자별 메모</label>
+                    <div id="dayMemoContainer" class="d-flex flex-column gap-3">
+                        <p class="text-muted small mb-0">시작일과 종료일을 입력하면 일자별 메모 칸이 생성됩니다.</p>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-end gap-2">
+                    <a href="/travel-plans" class="btn btn-outline-secondary">취소</a>
+                    <button type="submit" class="btn btn-tp-primary">
+                        <i class="bi bi-check-lg me-1"></i>저장
+                    </button>
+                </div>
+            </form>
         </div>
-        <div class="mb-3"><label class="form-label">메모</label><textarea class="form-control" name="memo" rows="3"></textarea></div>
-        <button type="submit" class="btn btn-success">저장</button>
-    </form>
+    </div>
 </div>
+
+<script>
+(function () {
+    const startInput = document.getElementById('startDate');
+    const endInput = document.getElementById('endDate');
+    const container = document.getElementById('dayMemoContainer');
+
+    function renderDayMemos() {
+        const start = startInput.value;
+        const end = endInput.value;
+        container.innerHTML = '';
+
+        if (!start || !end) {
+            container.innerHTML = '<p class="text-muted small mb-0">시작일과 종료일을 입력하면 일자별 메모 칸이 생성됩니다.</p>';
+            return;
+        }
+
+        const startDate = new Date(start);
+        const endDate = new Date(end);
+        const dayCount = Math.round((endDate - startDate) / (1000 * 60 * 60 * 24)) + 1;
+
+        if (dayCount <= 0 || dayCount > 60) {
+            container.innerHTML = '<p class="text-danger small mb-0">날짜를 다시 확인해주세요.</p>';
+            return;
+        }
+
+        for (let i = 0; i < dayCount; i++) {
+            const date = new Date(startDate);
+            date.setDate(date.getDate() + i);
+            const dateStr = date.toISOString().slice(0, 10);
+
+            const wrapper = document.createElement('div');
+            wrapper.innerHTML =
+                '<label class="form-label small fw-semibold">' + (i + 1) + '일차 (' + dateStr + ')</label>' +
+                '<input type="hidden" name="dayDates" value="' + dateStr + '">' +
+                '<textarea class="form-control" name="dayMemos" rows="2" placeholder="' + (i + 1) + '일차 일정을 입력하세요"></textarea>';
+            container.appendChild(wrapper);
+        }
+    }
+
+    startInput.addEventListener('change', renderDayMemos);
+    endInput.addEventListener('change', renderDayMemos);
+})();
+</script>
 {{> layouts/footer}}

@@ -1,6 +1,8 @@
 package com.example.travel_plan_crud.service;
 
 import com.example.travel_plan_crud.entity.TravelPlan;
+import com.example.travel_plan_crud.entity.TravelPlanItem;
+import com.example.travel_plan_crud.repository.TravelPlanItemRepository;
 import com.example.travel_plan_crud.repository.TravelPlanRepository;
 import org.springframework.stereotype.Service;
 
@@ -8,9 +10,12 @@ import org.springframework.stereotype.Service;
 public class TravelPlanService {
 
     private final TravelPlanRepository travelPlanRepository;
+    private final TravelPlanItemRepository travelPlanItemRepository;
 
-    public TravelPlanService(TravelPlanRepository travelPlanRepository) {
+    public TravelPlanService(TravelPlanRepository travelPlanRepository,
+                              TravelPlanItemRepository travelPlanItemRepository) {
         this.travelPlanRepository = travelPlanRepository;
+        this.travelPlanItemRepository = travelPlanItemRepository;
     }
 
     // 전체 목록 조회
@@ -44,5 +49,17 @@ public class TravelPlanService {
     public void delete(Long id) {
         TravelPlan target = findById(id);
         travelPlanRepository.delete(target);
+    }
+
+    // 세부 일정 추가
+    public TravelPlanItem addItem(Long planId, TravelPlanItem item) {
+        TravelPlan plan = findById(planId);
+        item.setTravelPlan(plan);
+        return travelPlanItemRepository.save(item);
+    }
+
+    // 세부 일정 삭제
+    public void deleteItem(Long itemId) {
+        travelPlanItemRepository.deleteById(itemId);
     }
 }

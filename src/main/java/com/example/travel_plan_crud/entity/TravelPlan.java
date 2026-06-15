@@ -1,10 +1,15 @@
 package com.example.travel_plan_crud.entity;
 
 //어노테이션 import
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OrderBy;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -23,8 +28,12 @@ public class TravelPlan{
     private LocalDate endDate; //종료일
     private String memo;
 
+    @OneToMany(mappedBy = "travelPlan", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OrderBy("visitDate ASC, visitTime ASC")
+    private List<TravelPlanItem> items = new ArrayList<>(); //일자별 세부 일정
+
     //빈 생성자 추가
     public TravelPlan(){
-        
+
     }
 }
