@@ -20,24 +20,31 @@
         <h5 class="mb-3"><i class="bi bi-list-task me-2"></i>세부 일정</h5>
 
         {{^travelPlan.items}}
-        <p class="tp-empty mb-4">등록된 세부 일정이 없습니다.</p>
+            <p class="tp-empty mb-4">등록된 세부 일정이 없습니다.</p>
         {{/travelPlan.items}}
-        {{#travelPlan.items}}
+
         <div class="tp-timeline mb-4">
             {{#travelPlan.items}}
-            <div class="tp-timeline-item">
-                <div class="tp-time">{{visitDate}} {{visitTime}}</div>
-                <div class="fw-semibold">{{place}}</div>
-                {{#memo}}<div class="text-muted small">{{memo}}</div>{{/memo}}
-                <a href="/travel-plans/{{travelPlan.id}}/items/{{id}}/delete"
-                   class="btn btn-sm btn-outline-danger mt-1"
-                   onclick="return confirm('이 세부 일정을 삭제하시겠습니까?');">
-                    <i class="bi bi-trash me-1"></i>삭제
-                </a>
-            </div>
+                <div class="tp-timeline-item">
+                    <div class="tp-time">
+                        {{visitDate}}
+                        {{#visitTime}} {{visitTime}}{{/visitTime}}
+                    </div>
+
+                    <div class="fw-semibold">{{place}}</div>
+
+                    {{#memo}}
+                        <div class="text-muted small">{{memo}}</div>
+                    {{/memo}}
+
+                    <a href="/travel-plans/{{travelPlan.id}}/items/{{id}}/delete"
+                       class="btn btn-sm btn-outline-danger mt-1"
+                       onclick="return confirm('이 세부 일정을 삭제하시겠습니까?');">
+                        <i class="bi bi-trash me-1"></i>삭제
+                    </a>
+                </div>
             {{/travelPlan.items}}
         </div>
-        {{/travelPlan.items}}
 
         <form action="/travel-plans/{{travelPlan.id}}/items/create" method="post" class="row g-2 border-top pt-3">
             <div class="col-md-3">
